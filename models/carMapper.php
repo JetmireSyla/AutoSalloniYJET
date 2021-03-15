@@ -11,13 +11,19 @@ class CarMapper
         $this->connection = $obj->getConnection();
     }
 
-    public function Insert($manufacturer, $model, $year, $transmission, $mileage, $fuel, $seats, $doors, $color, $price)
+    public function Insert($manufacturer, $model, $year, $transmission, $mileage, $fuel, $seats, $doors, $color, $price, $image)
     {
-        $sql = "INSERT INTO car (manufacturer,model,year,transmission,mileage,fuel,seats,doors,color,price,created_date,user_id) 
-                VALUES (:manufacturer,:model,:year,:transmission,:mileage,:fuel,:seats,:doors,:color,:price,:created_date,:user_id)";
+        $sql = "INSERT INTO car (manufacturer,model,year,transmission,mileage,fuel,seats,doors,color,price,created_date,user_id,image) 
+                VALUES (:manufacturer,:model,:year,:transmission,:mileage,:fuel,:seats,:doors,:color,:price,:created_date,:user_id,:image)";
 
             $created_date = '2020-05-07';
             $user_id = 1;
+
+            $target = "img/";
+            $name =  basename($image['name']);
+            $temp = explode(".", $name);
+            $newfilename = round(microtime(true)) . '.' . end($temp);
+            $picture = "img/".$newfilename;
 
             $statement = $this->connection->prepare($sql);
             $statement->bindParam('manufacturer', $manufacturer);
@@ -32,12 +38,20 @@ class CarMapper
             $statement->bindParam('price', $price);
             $statement->bindParam('created_date', $created_date);
             $statement->bindParam('user_id', $user_id);
-            $statement->execute();
+            $statement->bindParam('image', $picture);
+
+            if($statement->execute() && move_uploaded_file($image['tmp_name'], $target . "" . $newfilename)) {
+                $message = "Makina u shtua e sukses";
+                header('Location: admin-cars.php');
+            } else {
+                $message = "Nje problem u shfaqe gjate krijimit te makinës";
+            }
     }
 
     public function Update($car)
     {
-        $manufacturer = $manufacturer->getManufacturer();
+        
+        $manufacturer = $car->getManufacturer();
         $model = $car->getModel();
         $year = $car->getYear();
         $transmission = $car->getTransmission();
@@ -48,6 +62,13 @@ class CarMapper
         $color = $car->getColor();
         $price = $car->getPrice();
         $car_id = $car->getCarId();
+        $image = $car->getImage();
+
+        $target = "img/";
+        $name =  basename($image['name']);
+        $temp = explode(".", $name);
+        $newfilename = round(microtime(true)) . '.' . end($temp);
+        $picture = "img/".$newfilename;
 
         $sql = 'UPDATE car SET  manufacturer=:manufacturer,
                                 model=:model,
@@ -58,7 +79,8 @@ class CarMapper
                                 seats=:seats, 
                                 doors=:doors, 
                                 color=:color,
-                                price=:price 
+                                price=:price,
+                                image=:image 
                                 WHERE car_id =:car';
 
         $statement = $this->connection->prepare($sql);
@@ -73,7 +95,14 @@ class CarMapper
         $statement->bindParam('color', $color);
         $statement->bindParam('price', $price);
         $statement->bindParam('car', $car_id);
-        $statement->execute();
+        $statement->bindParam('image',$picture);
+
+        if($statement->execute() && move_uploaded_file($image['tmp_name'], $target . "" . $newfilename)) {
+            $message = "Makina u shtua e sukses";
+            header('Location: admin-cars.php');
+        } else {
+            $message = "Nje problem u shfaqe gjate krijimit te makinës";
+        }
 
     }
 
@@ -86,7 +115,7 @@ class CarMapper
     }
 
     public function getLastCars(){
-        $sth = $this->connection->prepare("SELECT * FROM car order by created_date LIMIT 4");
+        $sth = $this->connection->prepare("SELECT * FROM car order by created_date LIMIT 5");
         $sth->execute();
 
         $result = $sth->fetchAll();
