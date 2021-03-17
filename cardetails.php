@@ -16,7 +16,7 @@ $result = $carController->GetCarById($_GET["car_id"]);
                 <h1><?php echo $result['manufacturer']?></h1>
             </div>
             <div class="cardetails-img">
-                <img src="<?php echo $result['image']?>" alt="Mercedes-Benz" width="800" height="450" style="object-fit: cover;">
+                <img src="<?php echo $result['image']?>" alt="Mercedes-Benz" width="100%" height="450" style="object-fit: cover;">
             </div>
 
             <div class="details-form">

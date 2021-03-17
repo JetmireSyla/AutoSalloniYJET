@@ -34,10 +34,13 @@
 
     ?> 
     </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
 
     <script src="js/jquery.min.js"></script>
     <script src="js/owl.carousel.min.js"></script> 
@@ -50,9 +53,10 @@
         <div class="topnav">
             <div class="container">
                 <div class="logo">
+                    
                     <h3>AutoSalloni YJET</h3>
                 </div>
-                <div class="links">
+                <div class="links" id="myTopnav">
                 <?php
                         if(isset($_SESSION['role'])){
                             if( $_SESSION['role'] == "Admin"){
@@ -67,6 +71,8 @@
                     <a class="<?php if($page == 'cars'){echo 'active';}?>" href="cars.php">Products</a>
                     <a class="<?php if($page == 'about'){echo 'active';}?>" href="about.php">About</a>
                     <a class="<?php if($page == 'contact'){echo 'active';}?>" href="contact.php">Contact</a>
+                    <a href="javascript:void(0);" class="icon" onclick="myFunction()"> <i class="fa fa-bars"></i> </a>
+                                     
                     <?php
                         if(isset($_SESSION['email'])){
 
@@ -82,3 +88,13 @@
             </div>
         </div>
     </header>
+    <script>
+                function myFunction() {
+                    var x = document.getElementById("myTopnav");
+                    if (x.className === "topnav") {
+                        x.className += " responsive";
+                    } else {
+                        x.className = "topnav";
+                    }
+        }
+     </script>  
