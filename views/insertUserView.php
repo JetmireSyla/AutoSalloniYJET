@@ -1,5 +1,5 @@
 <?php
-include_once '../controller/userController.php';
+include_once 'controller/userController.php';
 if (isset($_POST['submitbtn'])) {
     $emri = $_POST['emri'];
     $mbiemri = $_POST['mbiemri'];
@@ -17,15 +17,14 @@ class InsertView
         $response = $controller->InsertStudent($emri, $mbiemri, $phone);
 
         if ($response) {
-
+?>
             <h1>U regjistrua me sukses</h1>
-        
+        <?php
 
         } else {
-        
+        ?>
             <h1>Nuk u regjistrua me sukses</h1>
 
         }
     }
 }
-?>

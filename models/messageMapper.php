@@ -21,7 +21,7 @@ class MessageMapper
 
         $sql = "INSERT INTO messages (date,email,subject,message) 
                 VALUES (:date,:email,:subject,:message)";
-            $date = '2020-02-01';
+            $date = '2021-02-01';
             $statement = $this->connection->prepare($sql);
             $statement->bindParam('date', $date);
             $statement->bindParam('email', $email);

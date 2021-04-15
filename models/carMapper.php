@@ -16,7 +16,7 @@ class CarMapper
         $sql = "INSERT INTO car (manufacturer,model,year,transmission,mileage,fuel,seats,doors,color,price,created_date,user_id,image) 
                 VALUES (:manufacturer,:model,:year,:transmission,:mileage,:fuel,:seats,:doors,:color,:price,:created_date,:user_id,:image)";
 
-            $created_date = '2020-05-07';
+            $created_date = '2021-02-07';
             $user_id = 1;
 
             $target = "img/";
